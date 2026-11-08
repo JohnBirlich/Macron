@@ -1,6 +1,7 @@
 namespace Macron.Input.Windows;
 
 using Macron.Core.Events;
+using System.Runtime.InteropServices;
 
 /// <summary>
 /// Воспроизведение событий через SendInput.
