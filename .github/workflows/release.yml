@@ -25,24 +25,14 @@ jobs:
         run: dotnet test -c Release --no-build
 
       - name: Publish self-contained single-file exe (win-x64)
-        id: publish
         shell: pwsh
         run: |
-          $p = Start-Process -FilePath 'dotnet' -ArgumentList 'publish','src/Macron.App','-c','Release','-r','win-x64','--self-contained','true','-p:PublishSingleFile=true','-p:IncludeNativeLibrariesForSelfExtract=true','-o','artifacts','-v:d' -RedirectStandardOutput 'publish.log' -RedirectStandardError 'publish.log' -Wait -PassThru
-          if ($p.ExitCode -ne 0) {
-            $tail = (Get-Content publish.log -Tail 80) -join "`n"
-            $msg = "dotnet publish failed (exit code $($p.ExitCode)). Last lines of publish.log:`n$tail"
-            Write-Host "::error file=src/Macron.App/Macron.App.csproj,title=Publish failed::$msg"
+          dotnet publish src/Macron.App -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts > publish.log 2>&1
+          if ($LASTEXITCODE -ne 0) {
+            $tail = (Get-Content publish.log -Tail 25) -join "`n"
+            Write-Host "::error file=src/Macron.App/Macron.App.csproj,title=Publish failed::dotnet publish exited with code $LASTEXITCODE.`n$tail"
             exit 1
           }
-
-      - name: Upload publish log (for diagnostics)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: publish-log
-          path: publish.log
-          continue-on-error: true
 
       - name: Create SHA256SUMS.txt
         working-directory: artifacts
