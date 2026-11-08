@@ -1,0 +1,46 @@
+<Window x:Class="Macron.App.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Настройки"
+        Height="340" Width="520"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Горячие клавиши" FontWeight="Bold" Margin="0,0,0,8"/>
+        <ItemsControl Grid.Row="0" Margin="0,22,0,0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <TextBlock Text="F6 — Record (начать/продолжить запись)"/>
+            <TextBlock Text="F8 — Play (воспроизвести выбранный макрос)"/>
+            <TextBlock Text="F7 — Stop (остановить запись или воспроизведение)"/>
+            <TextBlock Text="Ctrl+Alt+F12 — Panic (аварийная остановка, работает всегда)"/>
+        </ItemsControl>
+
+        <GroupBox Grid.Row="1" Header="Папка данных приложения" Margin="0,16,0,0">
+            <TextBlock Text="{Binding AppDataFolder}" TextWrapping="Wrap" Margin="8,8,8,8"/>
+        </GroupBox>
+
+        <GroupBox Grid.Row="2" Header="Ограничения" Margin="0,16,0,0">
+            <StackPanel Margin="8">
+                <TextBlock TextWrapping="Wrap">
+                    • Воспроизведение не реальное время: интервалы стабильны с погрешностью единицы миллисекунд.
+                    • Координаты абсолютные (виртуальный рабочий стол); при смене масштаба или разрешения клики могут уехать.
+                    • Для окон, запущенных от имени администратора, Macron тоже нужен запуск от администратора.
+                    • Не используйте в играх с античитом и там, где automatisierung запрещена правилами сервиса.
+                </TextBlock>
+            </StackPanel>
+        </GroupBox>
+
+        <Button Grid.Row="3" Content="Закрыть" MinWidth="80" HorizontalAlignment="Right" Click="OnClose"/>
+    </Grid>
+</Window>

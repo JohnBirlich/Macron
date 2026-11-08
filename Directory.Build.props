@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.0.1</Version>
+    <Authors>Macron</Authors>
+    <Product>Macron</Product>
+    <Description>Simple Windows macro recorder: record, replay, save.</Description>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>
