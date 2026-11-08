@@ -34,8 +34,10 @@ jobs:
         working-directory: artifacts
         shell: pwsh
         run: |
-          $hash = (Get-FileHash Macron.exe -Algorithm SHA256).Hash
-          "$hash  Macron.exe" | Set-Content -Path SHA256SUMS.txt -Encoding utf8
+          $sha = [System.Security.Cryptography.SHA256]::Create()
+          $hash = [BitConverter]::ToString($sha.ComputeHash([System.IO.File]::ReadAllBytes("Macron.exe"))).Replace("-", "").ToLower()
+          $sha.Dispose()
+          "$hash  Macron.exe" | Set-Content SHA256SUMS.txt -Encoding utf8
 
       - name: Build release notes from CHANGELOG
         id: notes
