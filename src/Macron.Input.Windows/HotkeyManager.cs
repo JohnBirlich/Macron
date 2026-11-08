@@ -1,5 +1,7 @@
 namespace Macron.Input.Windows;
 
+using System.Runtime.InteropServices;
+
 /// <summary>
 /// Глобальные горячие клавиши через RegisterHotKey в окне-only-сообщениях
 /// на собственном потоке с очередью сообщений. Работает независимо от состояния
