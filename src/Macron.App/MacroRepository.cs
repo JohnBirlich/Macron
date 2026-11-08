@@ -41,8 +41,6 @@ public sealed class MacroRepository
 
     public IReadOnlyList<MacroSummary> Macros => _macros;
 
-    public Macro? Last() => _macros.Count > 0 ? _macros[^1].Macro : null;
-
     public void Add(Macro macro)
     {
         if (string.IsNullOrWhiteSpace(macro.Name))
