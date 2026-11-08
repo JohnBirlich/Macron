@@ -53,6 +53,6 @@ public static class SettingsService
 
         var temp = Path.Combine(Folder, $"{Path.GetRandomFileName()}.tmp");
         File.WriteAllText(temp, JsonSerializer.Serialize(settings, Options));
-        File.Move(temp, Path, overwrite: true);
+        File.Move(temp, SettingsPath, overwrite: true);
     }
 }
