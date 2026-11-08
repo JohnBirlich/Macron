@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Macron.Core;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading;
 
 /// <summary>

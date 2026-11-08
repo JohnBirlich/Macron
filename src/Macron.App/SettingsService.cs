@@ -13,7 +13,7 @@ public static class SettingsService
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "Macron");
 
-    private static readonly string Path = Path.Combine(Folder, "settings.json");
+    private static readonly string SettingsPath = Path.Combine(Folder, "settings.json");
 
     private static readonly JsonSerializerOptions Options = new()
     {
@@ -30,9 +30,9 @@ public static class SettingsService
     {
         try
         {
-            if (File.Exists(Path))
+            if (File.Exists(SettingsPath))
             {
-                var settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(Path), Options);
+                var settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(SettingsPath), Options);
                 if (settings is not null)
                 {
                     return settings;
