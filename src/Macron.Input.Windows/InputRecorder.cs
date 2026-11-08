@@ -1,6 +1,7 @@
 namespace Macron.Input.Windows;
 
 using Macron.Core.Events;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using System.Threading;
 
