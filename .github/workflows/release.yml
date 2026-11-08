@@ -57,6 +57,9 @@ jobs:
 
       - name: Create GitHub Release
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create v0.0.1 artifacts/Macron.exe artifacts/SHA256SUMS.txt --title "Macron v0.0.1" --notes-file releasenotes.md --draft=false --prerelease
+          Get-ChildItem -Path artifacts
+          gh release create v0.0.1 artifacts/Macron.exe artifacts/SHA256SUMS.txt --title "Macron v0.0.1" --notes-file releasenotes.md --draft=false --prerelease 2>&1
 
