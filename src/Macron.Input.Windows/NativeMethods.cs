@@ -2,7 +2,7 @@ namespace Macron.Input.Windows;
 
 using System.Runtime.InteropServices;
 
-internal static class NativeMethods
+public static class NativeMethods
 {
     // Хуки
     public const int WH_KEYBOARD_LL = 13;

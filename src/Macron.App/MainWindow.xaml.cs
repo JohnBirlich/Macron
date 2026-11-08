@@ -20,7 +20,7 @@ public partial class MainWindow
         _viewModel.RenameRequested += OnRenameRequested;
     }
 
-    private Task<string?> ShowSaveFileDialog(string initial) => Dispatcher.Invoke(() =>
+    private string? ShowSaveFileDialog(string initial) => Dispatcher.Invoke(() =>
     {
         var dlg = new SaveFileDialog
         {
@@ -31,7 +31,7 @@ public partial class MainWindow
         return dlg.ShowDialog(this) == true ? dlg.FileName : null;
     });
 
-    private Task<string?> ShowOpenFileDialog() => Dispatcher.Invoke(() =>
+    private string? ShowOpenFileDialog() => Dispatcher.Invoke(() =>
     {
         var dlg = new OpenFileDialog
         {
