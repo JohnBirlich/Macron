@@ -25,7 +25,15 @@ jobs:
         run: dotnet test -c Release --no-build
 
       - name: Publish self-contained single-file exe (win-x64)
-        run: dotnet publish src/Macron.App -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts
+        run: dotnet publish src/Macron.App -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts -v:d 2>&1 | Tee-Object -FilePath publish.log
+        shell: pwsh
+
+      - name: Upload publish log (for diagnostics)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-log
+          path: publish.log
 
       - name: Create SHA256SUMS.txt
         working-directory: artifacts
