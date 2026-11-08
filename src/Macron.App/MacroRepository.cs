@@ -82,15 +82,15 @@ public sealed class MacroRepository
             MacroFileStorage.Save(summary.Path, macro);
         }
 
-        summary.Update(macro, newPath == summary.Path ? summary.Path : newPath);
+        summary.Name = macro.Name;
+        summary.Duration = macro.Duration;
+        summary.EventCount = macro.EventCount;
+        summary.Path = newPath == summary.Path ? summary.Path : newPath;
     }
 
-    public Task<Macro> LoadBySummary(MacroSummary summary) => LoadByPath(summary.Path);
+    public Task<Macro> LoadBySummary(MacroSummary summary) => Task.Run(() => LoadByPath(summary.Path));
 
-    public static Task<Macro> LoadByPath(string path)
-    {
-        return Task.Run(() => MacroFileStorage.Load(path));
-    }
+    public static Macro LoadByPath(string path) => MacroFileStorage.Load(path);
 
     private string MakeUniqueName(string name, MacroSummary? exclude = null)
     {
