@@ -1,6 +1,8 @@
 namespace Macron.App;
 
 using Microsoft.Win32;
+using System.Windows;
+using System.Windows.Threading;
 
 public partial class App : Application
 {

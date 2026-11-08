@@ -1,3 +1,5 @@
+using Macron.Core;
+
 namespace Macron.App;
 
 /// <summary>
