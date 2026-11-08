@@ -38,6 +38,8 @@ public partial class MainViewModel : ObservableObject
         _session.PlaybackCompleted += OnPlaybackCompleted;
 
         _statusTimer = new Timer(_ => UpdateStatusText(), null, Timeout.Infinite, Timeout.Infinite);
+
+        Macros = new(_session.Macros.OrderBy(m => m.Name, StringComparer.OrdinalIgnoreCase));
     }
 
     // ---------- колбэки диалогов, подключаются из MainWindow.xaml.cs ----------
@@ -55,8 +57,7 @@ public partial class MainViewModel : ObservableObject
 
     public bool IsPlaying => State == MacroState.Playing;
 
-    public ObservableCollection<MacroSummary> Macros { get; } =
-        new(_session.Macros.OrderBy(m => m.Name, StringComparer.OrdinalIgnoreCase));
+    public ObservableCollection<MacroSummary> Macros { get; }
 
     public MacroSummary? SelectedMacro
     {
@@ -78,9 +79,12 @@ public partial class MainViewModel : ObservableObject
         get => _settings.SpeedMultiplier;
         set
         {
-            if (SetProperty(ref _settings.SpeedMultiplier, Math.Clamp(value, 0.1, 10.0)))
+            var newValue = Math.Clamp(value, 0.1, 10.0);
+            if (_settings.SpeedMultiplier != newValue)
             {
+                _settings.SpeedMultiplier = newValue;
                 SettingsService.Save(_settings);
+                OnPropertyChanged();
             }
         }
     }
@@ -90,9 +94,11 @@ public partial class MainViewModel : ObservableObject
         get => _settings.RepeatMode;
         set
         {
-            if (SetProperty(ref _settings.RepeatMode, value))
+            if (_settings.RepeatMode != value)
             {
+                _settings.RepeatMode = value;
                 SettingsService.Save(_settings);
+                OnPropertyChanged();
             }
         }
     }
@@ -102,9 +108,12 @@ public partial class MainViewModel : ObservableObject
         get => _settings.RepeatCount;
         set
         {
-            if (SetProperty(ref _settings.RepeatCount, Math.Clamp(value, 1, 10_000_000)))
+            var newValue = Math.Clamp(value, 1, 10_000_000);
+            if (_settings.RepeatCount != newValue)
             {
+                _settings.RepeatCount = newValue;
                 SettingsService.Save(_settings);
+                OnPropertyChanged();
             }
         }
     }
@@ -114,9 +123,12 @@ public partial class MainViewModel : ObservableObject
         get => _settings.DelaySeconds;
         set
         {
-            if (SetProperty(ref _settings.DelaySeconds, Math.Clamp(value, 0, 3600)))
+            var newValue = Math.Clamp(value, 0, 3600);
+            if (_settings.DelaySeconds != newValue)
             {
+                _settings.DelaySeconds = newValue;
                 SettingsService.Save(_settings);
+                OnPropertyChanged();
             }
         }
     }
@@ -126,9 +138,11 @@ public partial class MainViewModel : ObservableObject
         get => _settings.RecordMouseMoves;
         set
         {
-            if (SetProperty(ref _settings.RecordMouseMoves, value))
+            if (_settings.RecordMouseMoves != value)
             {
+                _settings.RecordMouseMoves = value;
                 SettingsService.Save(_settings);
+                OnPropertyChanged();
             }
         }
     }
