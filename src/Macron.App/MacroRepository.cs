@@ -2,6 +2,7 @@ namespace Macron.App;
 
 using Macron.Core;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// Библиотека макросов пользователя в %APPDATA%\Macron\Macros.
