@@ -39,7 +39,18 @@ public sealed class MacroSession : IDisposable
         _dispatcher = Dispatcher.CurrentDispatcher;
 
         _controller.StateChanged += (_, s) => _dispatcher.Invoke(() => StateChanged?.Invoke(this, s));
-        _controller.PlaybackTick += (_, e) => _player.Play(e);
+        _controller.PlaybackTick += (_, e) =>
+        {
+            switch (e)
+            {
+                case MouseMoveEvent m: _player.Play(m); break;
+                case MouseDownEvent m: _player.Play(m); break;
+                case MouseUpEvent m: _player.Play(m); break;
+                case MouseWheelEvent m: _player.Play(m); break;
+                case KeyDownEvent k: _player.Play(k); break;
+                case KeyUpEvent k: _player.Play(k); break;
+            }
+        };
         _controller.PlaybackCompleted += (_, e) => _dispatcher.Invoke(() => PlaybackCompleted?.Invoke(this, e));
         _recorder.EventsCaptured += (_, events) =>
         {

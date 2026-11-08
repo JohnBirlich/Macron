@@ -2,6 +2,7 @@ namespace Macron.App;
 
 using Macron.Core;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Text.RegularExpressions;
 
 /// <summary>
@@ -93,7 +94,7 @@ public sealed class MacroRepository
         return Task.Run(() => MacroFileStorage.Load(path));
     }
 
-    private static string MakeUniqueName(string name, MacroSummary? exclude = null)
+    private string MakeUniqueName(string name, MacroSummary? exclude = null)
     {
         var candidate = name;
         var i = 2;
