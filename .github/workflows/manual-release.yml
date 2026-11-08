@@ -54,11 +54,6 @@ jobs:
           [System.IO.File]::WriteAllLines('releasenotes.md', $out)
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            artifacts/Macron.exe
-            artifacts/SHA256SUMS.txt
-          body_path: releasenotes.md
-          draft: false
-          prerelease: true
+        shell: pwsh
+        run: |
+          gh release create v0.0.1 artifacts/Macron.exe artifacts/SHA256SUMS.txt --title "Macron v0.0.1" --notes-file releasenotes.md --draft=false --prerelease
