@@ -1,6 +1,8 @@
 namespace Macron.Input.Windows;
 
 using Macron.Core.Events;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 /// <summary>
 /// Низкоуровневые хуки мыши и клавиатуры на отдельном потоке с очередью сообщений.

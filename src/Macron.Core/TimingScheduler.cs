@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace Macron.Core;
 
 /// <summary>
