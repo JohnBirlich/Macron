@@ -30,9 +30,10 @@ jobs:
 
       - name: Create SHA256SUMS.txt
         working-directory: artifacts
+        shell: pwsh
         run: |
           $hash = (Get-FileHash Macron.exe -Algorithm SHA256).Hash
-          "$hash  Macron.exe" | Out-File -Encoding utf8 SHA256SUMS.txt
+          "$hash  Macron.exe" | Set-Content -Path SHA256SUMS.txt -Encoding utf8
 
       - name: Build release notes from CHANGELOG
         id: notes
