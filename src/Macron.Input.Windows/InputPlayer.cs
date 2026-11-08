@@ -1,5 +1,6 @@
 namespace Macron.Input.Windows;
 
+using Macron.Core;
 using Macron.Core.Events;
 using System.Runtime.InteropServices;
 
