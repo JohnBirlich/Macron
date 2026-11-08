@@ -25,8 +25,17 @@ jobs:
         run: dotnet test -c Release --no-build
 
       - name: Publish self-contained single-file exe (win-x64)
-        run: dotnet publish src/Macron.App -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts -v:d 2>&1 | Tee-Object -FilePath publish.log
+        id: publish
         shell: pwsh
+        run: |
+          $p = Start-Process -FilePath 'dotnet' -ArgumentList 'publish','src/Macron.App','-c','Release','-r','win-x64','--self-contained','true','-p:PublishSingleFile=true','-p:IncludeNativeLibrariesForSelfExtract=true','-o','artifacts','-v:d' -RedirectStandardOutput 'publish.log' -RedirectStandardError 'publish.log' -Wait -PassThru
+          if ($p.ExitCode -ne 0) {
+            $tail = (Get-Content publish.log -Tail 60) -join "`n"
+            echo "publish_tail<<EOF" >> $env:GITHUB_OUTPUT
+            echo $tail >> $env:GITHUB_OUTPUT
+            echo "EOF" >> $env:GITHUB_OUTPUT
+            exit 1
+          }
 
       - name: Upload publish log (for diagnostics)
         if: failure()
