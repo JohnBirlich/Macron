@@ -27,10 +27,18 @@ jobs:
       - name: Publish self-contained single-file exe (win-x64)
         shell: pwsh
         run: |
+          $errorPreference = 'Continue'
           dotnet publish src/Macron.App -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts > publish.log 2>&1
-          if ($LASTEXITCODE -ne 0) {
-            $tail = (Get-Content publish.log -Tail 25) -join "`n"
-            Write-Host "::error file=src/Macron.App/Macron.App.csproj,title=Publish failed::dotnet publish exited with code $LASTEXITCODE.`n$tail"
+          $code = $LASTEXITCODE
+          if ($code -ne 0) {
+            $lines = Get-Content publish.log -ErrorAction SilentlyContinue
+            if ($lines) {
+              $tail = $lines | Select-Object -Last 40
+              foreach ($line in $tail) {
+                Write-Host "::error file=src/Macron.App/Macron.App.csproj,title=Publish failed::$line"
+              }
+            }
+            Write-Host "::error file=src/Macron.App/Macron.App.csproj,title=Publish failed::dotnet publish exited with code $code"
             exit 1
           }
 
