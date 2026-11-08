@@ -1,0 +1,48 @@
+name: Баг-реポート
+description: Сообщить об ошибке в Macron
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Версия
+      description: Версия из заголовка окна или имя релиза (например, v0.0.1)
+      placeholder: v0.0.1
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows
+      description: Например, Windows 11 23H2, масштаб 150%, два монитора
+      placeholder: Windows 10 22H2, 100%, один монитор
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Что делали
+      description: Пошаговое воспроизведение
+      placeholder: 1. Нажал Record (F6) ... 2. Нажал Stop (F7) ... 3. Нажал Play (F8) ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Ожидаемое поведение
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Фактическое поведение
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Лог
+      description: Лог из %APPDATA%\Macron (не содержит нажатых клавиш)
+    validations:
+      required: false

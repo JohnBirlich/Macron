@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build (Release)
+        run: dotnet build -c Release --no-restore
+
+      - name: Run tests
+        run: dotnet test -c Release --no-build
+
+      - name: Publish self-contained single-file exe (win-x64)
+        run: dotnet publish src/Macron.App -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts
+
+      - name: Create SHA256SUMS.txt
+        working-directory: artifacts
+        run: |
+          $hash = (Get-FileHash Macron.exe -Algorithm SHA256).Hash
+          "$hash  Macron.exe" | Out-File -Encoding utf8 SHA256SUMS.txt
+
+      - name: Build release notes from CHANGELOG
+        id: notes
+        run: |
+          $lines = Get-Content CHANGELOG.md
+          $capture = $false
+          $out = New-Object System.Collections.Generic.List[string]
+          foreach ($line in $lines) {
+            if ($line -match '^## \[(\d+)') {
+              if ($capture) { break }
+              $capture = $true
+              continue
+            }
+            if ($capture) { $out.Add($line) }
+          }
+          [System.IO.File]::WriteAllLines('releasenotes.md', $out)
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/Macron.exe
+            artifacts/SHA256SUMS.txt
+          body_path: releasenotes.md
+          draft: false
+          prerelease: true
